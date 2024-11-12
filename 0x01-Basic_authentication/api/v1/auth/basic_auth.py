@@ -66,7 +66,7 @@ class BasicAuth(Auth):
             return user_found[0]
 
         return None
-    
+
     def current_user(self, request=None) -> TypeVar('User'):
         """ current authenticated user
         """
