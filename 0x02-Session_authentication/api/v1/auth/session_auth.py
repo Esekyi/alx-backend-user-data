@@ -6,11 +6,7 @@ from uuid import uuid4
 
 class SessionAuth(Auth):
     """SessionAuth class inherited from Auth"""
-
-    def __init__(self):
-        super().__init__()
-        user_id_by_session_id = {}
-        self.user_id_by_session_id = user_id_by_session_id
+    user_id_by_session_id = {}
 
     def create_session(self, user_id: str = None) -> str:
         """Create a session ID for user_id"""
