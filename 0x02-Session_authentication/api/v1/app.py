@@ -26,26 +26,24 @@ elif auth_type == "basic_auth":
 else:
     auth = Auth()
 
-    if auth is not None:
-        @app.before_request
-        def before_request():
-            """ Handle before request filtering """
-            request.current_user = auth.current_user(request)
-            if auth.require_auth(request.path, [
-                    '/api/v1/status/',
-                    '/api/v1/unauthorized/',
-                    '/api/v1/forbidden/',
-                    '/api/v1/auth_session/login/'
-            ]):
-                if auth.authorization_header(
-                        request) is None and auth.session_cookie(
-                            request) is None and not isinstance(auth, (
-                                SessionAuth or BasicAuth or Auth
-                            )
-                ):
-                    abort(401)
-                if auth.current_user(request) is None:
-                    abort(403)
+if auth is not None:
+    @app.before_request
+    def before_request():
+        """ Handle before request filtering """
+        request.current_user = auth.current_user(request)
+        if auth.require_auth(request.path, [
+                '/api/v1/status/',
+                '/api/v1/unauthorized/',
+                '/api/v1/forbidden/',
+                '/api/v1/auth_session/login/'
+        ]):
+
+            if auth.authorization_header(
+                    request) is None and auth.session_cookie(
+                        request) is None:
+                abort(401)
+            if auth.current_user(request) is None:
+                abort(403)
 
 
 @app.errorhandler(404)
