@@ -37,7 +37,10 @@ else:
                     '/api/v1/forbidden/'
             ]):
                 if auth.authorization_header(
-                        request) is None and not isinstance(auth, SessionAuth):
+                        request) is None and not isinstance(auth, (
+                            SessionAuth or BasicAuth or Auth
+                        )
+                ):
                     abort(401)
                 if auth.current_user(request) is None:
                     abort(403)
